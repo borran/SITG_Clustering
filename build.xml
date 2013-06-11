@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="SITG_Catalog" basedir="." default="build">
+	<description>SITG Catalog Project Build Script</description>
+	
+	<!-- configuration file -->
+	<xmlproperty file="config.xml" collapseAttributes="true"/>
+
+	<!-- targets -->
+  	<target name="build" depends="jar" description="Build whole project"/>
+  
+    <target name="clean" depends="init" description="Remove previous build files">
+        <delete dir="${build.dir}"/>
+    </target>
+        
+    <target name="init">
+    	<property environment="env"/>
+    	
+    	<!-- check for required tools -->
+    	<fail message="Missing JAVA_HOME variable in OS environment">
+    		<condition><isset property="${env.JAVA_HOME}"/></condition>
+    	</fail>    	
+	    <fail message="Missing SCALA_HOME variable in OS environment">
+	    	<condition><isset property="${env.SCALA_HOME}"/></condition>
+	    </fail>
+
+	    <!-- variables for paths and files -->      
+    	<property name="src.dir"     value="src"/>
+	    <property name="build.dir"   value="build"/>
+    	<property name="classes.dir" value="${build.dir}/classes"/>
+	    <property name="jar.dir"     value="${build.dir}/jar"/>
+    	<property name="lib.dir"     value="lib"/>
+		<property name="scala.dir" value="${env.SCALA_HOME}"/>
+		<property name="scala-library.jar" location="${scala.dir}/lib/scala-library.jar"/>
+	    <property name="scala-compiler.jar" location="${scala.dir}/lib/scala-compiler.jar"/>		    
+	
+    	<path id="classpath">
+    		<pathelement location="${scala-library.jar}"/>
+    		<pathelement location="${classes.dir}"/> <!-- used during recompilation -->
+    		<fileset dir="${lib.dir}" includes="**/*.jar"/>
+    	</path>
+    	
+    	<path id="scala.classpath">
+    		<pathelement location="${scala-compiler.jar}"/>
+    		<pathelement location="${scala-library.jar}"/>
+    	</path>
+    	
+    	<!-- load scala's ant tasks -->
+    	<taskdef resource="scala/tools/ant/antlib.xml" classpathref="scala.classpath"/>
+    	
+    	<!-- print where this project will get scala and java from -->
+    	<echo message="Init project"/>
+    	<echo message=" with scala.dir = ${scala.dir}"/>
+    	<echo message=" with java.dir = ${java.dir}"/>
+        
+    	<!-- check if any files has been modified since last build -->
+    	<uptodate property="build.uptodate" targetfile="${build.dir}/build.done">
+    		<srcfiles dir= "${src.dir}" includes="**"/>
+    		<srcfiles dir= "${lib.dir}" includes="**"/>
+    	</uptodate>
+                  	
+  	</target>
+
+    <target name="compile" depends="init" unless="build.uptodate" description="Compile whole project">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>        
+        <scalac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="scala.classpath" force="changed">
+			<include name="**/*.scala"/>       	
+        </scalac>
+    </target>
+    
+    <target name="jar" depends="compile" unless="build.uptodate" description="Create jar file">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="parser" depends="jar" description="Parsing XML files">
+		<echo message="${config.parser.classename} ${config.parser.input} ${config.parser.output}"/>	        
+        <java fork="true" classname="${config.parser.classename}">
+        	<arg line="${config.parser.input} ${config.parser.output}"/>        
+            <classpath>
+                <path refid="scala.classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>    
+    </target>    
+    
+    <target name="tagger" depends="jar" description="Tagging TXT files">
+		<echo message="${config.tagger.classename} ${config.tagger.input} ${config.tagger.output}"/>    
+        <java fork="true" classname="${config.tagger.classename}">
+        	<arg line="${config.tagger.input} ${config.tagger.output}"/>              
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>    
+    </target>
+	
+    <target name="cluster" depends="jar" description="Clustering documents">
+		<echo message="${config.cluster.classename} ${config.cluster.input} ${config.cluster.output} ${config.similar.minSupport} ${config.similar.maxNGram} ${config.similar.minDF} ${config.similar.maxDFPercent}"/>	    
+        <java fork="true" classname="${config.cluster.classename}">
+        	<arg line="${config.cluster.input} ${config.cluster.output} ${config.cluster.k} ${config.cluster.maxNGram} ${config.cluster.minSupport} ${config.cluster.minDF} ${config.cluster.maxDFPercent}"/>
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>    
+    </target>	
+    
+    <target name="similar" depends="jar" description="Finding similar documents">
+		<echo message="${config.similar.classename} ${config.similar.input} ${config.similar.output} ${config.similar.minSupport} ${config.similar.maxNGram} ${config.similar.minDF} ${config.similar.maxDFPercent}"/>	    
+        <java fork="true" classname="${config.similar.classename}">        	
+        	<arg line="${config.similar.input} ${config.similar.output} ${config.similar.minSupport} ${config.similar.maxNGram} ${config.similar.minDF} ${config.similar.maxDFPercent}"/>
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${jar.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>    
+    </target>
+       
+    <target name="cleanup" depends="init" description="Remove all folders created by the project">
+        <delete dir="${config.parser.output}"/>
+        <delete dir="${config.tagger.output}"/>
+        <delete dir="${config.cluster.output}"/>
+        <delete dir="${config.similar.output}"/>                        
+    </target>
+    
+</project>

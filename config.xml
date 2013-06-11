@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+
+<parser>
+	<classename>sitg.parsing.XMLParser</classename>
+	<input>SITG_XML_COMPLET</input>
+	<output>SITG_TXT</output>	
+</parser>
+
+<tagger>
+	<classename>sitg.tagging.PosTagger</classename>
+	<input>SITG_TXT/TITRE_RESUME</input>
+	<output>SITG_TXT/TITRE_RESUME_TAGGED</output>	
+</tagger>
+
+<cluster>
+	<classename>sitg.clustering.KmeansClustering</classename>
+	<input>SITG_TXT/TITRE_RESUME_TAGGED</input>
+	<output>SITG_CLUSTER</output>	
+	<k>15</k>
+	<maxNGram>2</maxNGram>
+	<minSupport>1</minSupport>
+	<minDF>1</minDF>
+	<maxDFPercent>25</maxDFPercent>
+</cluster>
+
+<similar>
+	<classename>sitg.similarities.FindSimilarDocs</classename>
+	<input>SITG_TXT/TITRE_RESUME_TAGGED</input>
+	<output>SITG_SIMILAR</output>	
+	<minSupport>1</minSupport>
+	<maxNGram>1</maxNGram>	
+	<minDF>1</minDF>
+	<maxDFPercent>100</maxDFPercent>	
+</similar>
+
+</config>
