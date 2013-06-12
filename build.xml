@@ -102,7 +102,7 @@
     </target>
 	
     <target name="cluster" depends="jar" description="Clustering documents">
-		<echo message="${config.cluster.classename} ${config.cluster.input} ${config.cluster.output} ${config.similar.minSupport} ${config.similar.maxNGram} ${config.similar.minDF} ${config.similar.maxDFPercent}"/>	    
+		<echo message="${config.cluster.classename} ${config.cluster.input} ${config.cluster.output} ${config.cluster.minSupport} ${config.cluster.maxNGram} ${config.cluster.minDF} ${config.cluster.maxDFPercent}"/>	    
         <java fork="true" classname="${config.cluster.classename}">
         	<arg line="${config.cluster.input} ${config.cluster.output} ${config.cluster.k} ${config.cluster.maxNGram} ${config.cluster.minSupport} ${config.cluster.minDF} ${config.cluster.maxDFPercent}"/>
             <classpath>
