@@ -30,6 +30,7 @@
     	<property name="classes.dir" value="${build.dir}/classes"/>
 	    <property name="jar.dir"     value="${build.dir}/jar"/>
     	<property name="lib.dir"     value="lib"/>
+		<property name="java.dir" value="${env.JAVA_HOME}"/>    	
 		<property name="scala.dir" value="${env.SCALA_HOME}"/>
 		<property name="scala-library.jar" location="${scala.dir}/lib/scala-library.jar"/>
 	    <property name="scala-compiler.jar" location="${scala.dir}/lib/scala-compiler.jar"/>		    

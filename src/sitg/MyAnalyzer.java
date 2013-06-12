@@ -55,8 +55,6 @@ public class MyAnalyzer extends Analyzer {
 	    try {
 	      while (result.incrementToken()) {	        
 	        String word = new String(termAtt.buffer(), 0, termAtt.length());
-	        word = word.replaceAll("¨", "?");
-	        word = word.replaceAll("Õ", "'");
 	        String[] words = separators.split(word);
 	        for (String w : words)
 	        	buf.append(w).append(" ");		       

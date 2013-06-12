@@ -120,7 +120,6 @@ public class KmeansClustering {
     MyAnalyzer analyzer = new MyAnalyzer();
     //System.out.println("Default stopwords: " + MyAnalyzer.stopwords);
     Set custom_stopwords = new HashSet(Arrays.asList("dime", "dim", "du", "dt", "ds", "dip", "df", "dcti", "dse", "dspe"));
-    //custom_stopwords.addAll(new HashSet(Arrays.asList("département")));
     analyzer.addStopwords(custom_stopwords);
     //System.out.println("Custom stopwords: " + custom_stopwords);
 
