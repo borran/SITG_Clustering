@@ -29,12 +29,26 @@ Useful commands
 2. Create jar: ant jar
 
 3. Run parser: ant parser
+3.1. Set input and output in config.xml (see default values)
+3.2. input is a folder containing all SITG XML files
+3.3. output is a folder containing different folders of TXT files
 
 4. Run tagger: ant tagger
+4.1. Set input and output in config.xml (see default values)
+4.2. input is an output of the parser (previous step)
+4.3. output is a folder containing tagged TXT files 
 
 5. Run clustering: ant cluster
+5.1. Set input, output and parameters in config.xml (see default values)
+5.2. input is an output of the tagger (previous step)
+5.3. output is a folder containing different results of clustering
+5.4. final result of clustering is in turtle format in .xml file in output folder
 
 6. Run similarity: ant similar
+6.1. Set input, output and parameters in config.xml (see default values)
+6.2. input is an output of the tagger (step 4)
+6.3. output is a folder containing different results of similarity
+6.4. final result of similarity is in turtle format in .xml file in output folder
 
 7. Clean project (remove build folder): ant clean
 
