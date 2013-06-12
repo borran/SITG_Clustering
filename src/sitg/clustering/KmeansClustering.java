@@ -58,6 +58,11 @@ import org.apache.mahout.utils.clustering.ClusterDumper;
 
 import sitg.MyAnalyzer;
 
+/**
+ * This file uses Kmeans Clustering on the SITG Catalog.
+ * 
+ * @author Fatemeh Borran
+ */
 public class KmeansClustering {
 
   public static void main(String args[]) throws Exception {

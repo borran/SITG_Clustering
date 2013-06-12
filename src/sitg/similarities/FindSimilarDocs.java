@@ -45,6 +45,11 @@ import org.apache.mahout.text.SequenceFilesFromDirectory;
 
 import sitg.MyAnalyzer;
 
+/**
+ * This file finds similar documents for the SITG Catalog.
+ * 
+ * @author Fatemeh Borran
+ */
 public class FindSimilarDocs {
 
   public static void main(String args[]) throws Exception {

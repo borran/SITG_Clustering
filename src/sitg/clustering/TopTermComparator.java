@@ -3,6 +3,11 @@ package sitg.clustering;
 import java.util.Comparator;
 import java.util.Map;
 
+/**
+ * This file implements a comparator for top terms of documents/clusters.
+ * The comparison is based on the weight of the terms. 
+ * @author Fatemeh Borran
+ */
 public class TopTermComparator implements Comparator {
 
 	@Override
