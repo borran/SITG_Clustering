@@ -1,7 +1,17 @@
 SITG_Clustering
 ===============
 
-Clustering SITG Catalog
+SITG_Clustering is a collection of programs (in Scala and Java) that allows semantic clustering of SITG dictionary 
+(http://ge.ch/sitg/).
+Each entry of the dictionary is an XML document composed of a set of metadata.
+The project contains programs for
+1) parsing
+2) text pre-processing
+3) regrouping based on vector similarity matrix
+4) k-means clustering
+5)
+
+
 
 
 Requirements:
