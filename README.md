@@ -1,7 +1,7 @@
 SITG_Clustering
 ===============
 
-SITG_Clustering is a collection of programs (in Scala and Java) that allows semantic clustering of SITG [Le Système d'Information du Territoire à Genève](http://ge.ch/sitg/) dictionary.
+SITG_Clustering is a collection of programs (in Scala and Java) that allows semantic amalysis of SITG [Le Système d'Information du Territoire à Genève](http://ge.ch/sitg/) dictionary.
 Each entry of the dictionary is an XML document composed of a set of metadata.
 The project contains programs for
 
